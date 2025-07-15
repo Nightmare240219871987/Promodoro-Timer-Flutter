@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:in_time/pages/add_page.dart';
 import 'package:in_time/pages/settings_page.dart';
-import 'package:in_time/widgets/timer.dart';
+import 'package:in_time/widgets/timer_widget.dart';
 
 Color primary = Color.fromARGB(255, 191, 153, 210);
 Color secondary = Color.fromARGB(255, 124, 4, 184);
@@ -49,7 +49,7 @@ class _StartPageState extends State<StartPage> {
   void onPressed() {
     setState(() {
       widget.widgets.add(
-        Timer(timeTarget: 25, task: "Timer Widget schreiben."),
+        TimerWidget(timeTarget: 1, task: "Timer Widget schreiben."),
       );
     });
   }
