@@ -1,0 +1,5 @@
+{
+    "dart.cliConsole": "terminal",
+    "editor.guides.bracketPairs": "active",
+    "editor.formatOnSave": true
+}
