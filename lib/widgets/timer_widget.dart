@@ -24,6 +24,7 @@ class _TimerState extends State<TimerWidget> implements Observer {
   void initState() {
     timer = Timer(time: widget.timeTarget);
     timer.addObserver(this);
+    timer.start();
     super.initState();
   }
 
@@ -36,7 +37,6 @@ class _TimerState extends State<TimerWidget> implements Observer {
 
   @override
   Widget build(BuildContext context) {
-    timer.start();
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
