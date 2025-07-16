@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:in_time/Classes/observer.dart';
 import 'package:in_time/Classes/subject.dart';
 
@@ -20,27 +18,23 @@ class Timer implements Subject {
 
   Timer({required this.time});
 
-  void _work() async {
+  void _work() {
     int end = 0;
     int targetTime = time * 1000 * 60;
     while (end <= targetTime) {
-      sleep(Duration(milliseconds: 1000));
+      sleep(Duration(milliseconds: 100));
       end = sw.elapsedMilliseconds;
       _elapsedTime = end / 1000 / 60;
       _percentage = 100 / targetTime * end;
     }
     _isComplete = true;
-    await notifyObserver();
+    notifyObserver();
     stop();
   }
 
   void start() {
     sw.start();
-    compute(
-      () => _work() as ComputeCallback < Future<void>,
-      Future<void>(),
-      null,
-    );
+    _work();
   }
 
   void stop() {
@@ -48,14 +42,14 @@ class Timer implements Subject {
   }
 
   @override
-  void addObserver(Observer observer) {
+  void addObserver(Observer observer) async {
     observers.add(observer);
   }
 
   @override
-  Future<void> notifyObserver() async {
+  void notifyObserver() async {
     for (Observer o in observers) {
-      o.update();
+      o.update(this);
     }
   }
 

@@ -1,3 +1,3 @@
 abstract class Observer {
-  void update();
+  void update(dynamic object);
 }

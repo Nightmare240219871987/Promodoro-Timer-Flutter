@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:in_time/Classes/observer.dart';
 import 'package:in_time/Classes/timer.dart';
@@ -14,35 +16,24 @@ class TimerWidget extends StatefulWidget {
 }
 
 class _TimerState extends State<TimerWidget> implements Observer {
-  late Timer timer;
   double value = 0.0;
   double elapsedTime = 0.0;
   double percentage = 0.0;
   bool isComplete = false;
 
   @override
-  void initState() {
-    timer = Timer(time: widget.timeTarget);
-    timer.addObserver(this);
-    timer.start();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    timer.removeObserver(this);
-    timer.stop();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Isolate.run(() {
+      Timer timer = Timer(time: widget.timeTarget);
+      timer.addObserver(this);
+      timer.start();
+    });
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Text("Aufgabe : ${widget.task} "),
+            Text("Aufgabe : Hallo Welt "),
             Text("Timer : $elapsedTime Min / ${widget.timeTarget} Min"),
             LinearProgressIndicator(value: percentage),
             ElevatedButton(
@@ -64,7 +55,8 @@ class _TimerState extends State<TimerWidget> implements Observer {
   void onPressedFinished() {}
 
   @override
-  void update() {
+  void update(dynamic object) {
+    Timer timer = object as Timer;
     setState(() {
       elapsedTime = timer.elapsedTime;
       value = timer.percentage;
